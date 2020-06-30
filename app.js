@@ -12,6 +12,49 @@ const render = require("./lib/htmlRenderer");
 
 
 // Write code to use inquirer to gather information about the development team members,
+const questions = function () {
+    inquirer.prompt([
+        {
+            type: "input",
+            message: "name",
+            name: "name",
+        },
+        {
+            type: "input",
+            message: "email",
+            name: "email",
+        },
+        {
+            type: "list",
+            message: "employee type",
+            choices: ["Manager", "Engineer", "Intern"],
+            name: "employeeType"
+        },
+        {
+            type: "input",
+            message: "office number",
+            name: "oNumber",
+            when: (answer) => answer.employeeType === "Manager",
+        },
+        {
+            type: "input",
+            message: "Github Username",
+            name: "github",
+            when: (answer) => answers.employeeType === "Engineer",
+        },
+        {
+            type: "input",
+            message: "School",
+            name: "school",
+            when: (answer) => answers.employeeType === "Intern",
+        },
+        {
+            type: "confirm",
+            message: "Add another employee?",
+            name: "newEmployee",
+        }
+    ])
+}
 // and to create objects for each team member (using the correct classes as blueprints!)
 
 // After the user has input all employees desired, call the `render` function (required
