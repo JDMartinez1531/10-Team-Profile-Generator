@@ -10,51 +10,134 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
+const teamArray = [];
 
 // Write code to use inquirer to gather information about the development team members,
-const questions = function () {
+
+const managerPrompts = function () {
     inquirer.prompt([
         {
             type: "input",
-            message: "name",
-            name: "name",
+            message: "Manager name",
+            name: "managerName", 
         },
         {
             type: "input",
-            message: "email",
-            name: "email",
+            message: "Manager Email",
+            name: "managerEmail",
         },
         {
-            type: "list",
-            message: "employee type",
-            choices: ["Manager", "Engineer", "Intern"],
-            name: "employeeType"
+            type: "input",
+            message: "id#",
+            name: "managerId",
         },
         {
             type: "input",
             message: "office number",
             name: "oNumber",
-            when: (answer) => answer.employeeType === "Manager",
+        },
+        
+    ])
+    .then (answers => {
+        const manager = new Manager(answers.managerName, answers.managerId, answers.managerEmail, answers.oNumber);
+        teamArray.push(manager);
+        createTeam();
+    })
+}
+
+function createTeam() {
+    inquirer.prompt([
+        {
+            type: "list",
+            message: "What type of employee would you like to add?",
+            choices: ["Engineer", "Intern", "Finished adding new employees"],
+            name: "employeeChoice"
+        }
+    ])
+    .then(answers => {
+        switch (answers.employeeChoice) {
+            case "Engineer":
+                createEngineer();
+                break;  
+            case "Intern":
+                createIntern();
+                break;
+            default:
+                buildTeam();    
+        }   
+    })
+}
+
+    
+
+function createEngineer() {
+    inquirer.prompt([
+        {
+            type: "input",
+            message: "Engineer name",
+            name: "engineerName", 
+        },
+        {
+            type: "input",
+            message: "Engineer Email",
+            name: "engineerEmail",
+        },
+        {
+            type: "input",
+            message: "id#",
+            name: "engineerId",
         },
         {
             type: "input",
             message: "Github Username",
             name: "github",
-            when: (answer) => answers.employeeType === "Engineer",
+        },
+        
+    ])
+    .then (answers => {
+        const engineer = new Engineer(answers.engineerName, answers.engineerId, answers.engineerEmail, answers.github);
+        teamArray.push(engineer);
+        createTeam();
+    })
+    
+}
+function createIntern() {
+    inquirer.prompt([
+        {
+            type: "input",
+            message: "Intern name",
+            name: "internName", 
+        },
+        {
+            type: "input",
+            message: "Intern Email",
+            name: "internEmail",
+        },
+        {
+            type: "input",
+            message: "Id#",
+            name: "internId",
         },
         {
             type: "input",
             message: "School",
             name: "school",
-            when: (answer) => answers.employeeType === "Intern",
         },
-        {
-            type: "confirm",
-            message: "Add another employee?",
-            name: "newEmployee",
-        }
+        
     ])
+        .then (answers => {
+        const intern = new Intern(answers.internName, answers.internId, answers.internEmail, answers.school);
+        teamArray.push(intern);
+        createTeam();
+})
 }
+
+function buildTeam() {
+console.log(teamArray);
+}
+
+managerPrompts();
+// console.log(teamArray);
 // and to create objects for each team member (using the correct classes as blueprints!)
 
 // After the user has input all employees desired, call the `render` function (required
