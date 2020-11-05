@@ -10,6 +10,7 @@
 - [Usage](#usage)
 - [License](#license)
 - [Tests](#tests)
+- [Demo](#demo)
 - [Questions](#questions)
 
 
@@ -62,6 +63,13 @@ Tests can be found in test/
 ```
 jest test
 ```
+
+---
+
+## Demo
+
+After following all CLI prompts, the application will generate an html page like the one below.
+![Demo](./img/teampro2.png)
 
 ---
 
